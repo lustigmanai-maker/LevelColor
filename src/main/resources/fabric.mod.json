@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "levelcolor",
+  "version": "${version}",
+  "name": "LevelColor",
+  "description": "Changes only the XP level number color with HEX and RGB settings.",
+  "authors": ["Kapi"],
+  "license": "MIT",
+  "environment": "client",
+  "entrypoints": {
+    "client": ["net.kapi.levelcolor.LevelColorClient"]
+  },
+  "mixins": [
+    {
+      "config": "levelcolor.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.19.5",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
