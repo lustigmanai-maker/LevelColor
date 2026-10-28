@@ -1,0 +1,9 @@
+{
+  "required": true,
+  "package": "net.kapi.levelcolor.mixin",
+  "compatibilityLevel": "JAVA_25",
+  "client": ["ContextualBarMixin"],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
