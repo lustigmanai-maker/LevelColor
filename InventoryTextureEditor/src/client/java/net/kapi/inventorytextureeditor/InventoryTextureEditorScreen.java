@@ -23,8 +23,7 @@ public final class InventoryTextureEditorScreen extends Screen {
         int top = Math.max(8, (this.height - 260) / 2);
 
         this.addRenderableWidget(Button.builder(Component.literal("Import PNG / JPG"), button -> chooseImage())
-                .bounds(centerX - 105, top + 174, 210, 20)
-                .build());
+                .bounds(centerX - 105, top + 174, 210, 20).build());
 
         this.addRenderableWidget(Button.builder(Component.literal("Remove custom background"), button -> {
             try {
@@ -40,13 +39,7 @@ public final class InventoryTextureEditorScreen extends Screen {
     }
 
     private void chooseImage() {
-        setStatus("Choose a PNG or JPG image...", false);
-        InventoryTextureManager.openFilePicker((Path path) -> {
-            if (path == null) {
-                setStatus("Import cancelled.", false);
-                return;
-            }
-
+        this.minecraft.gui.setScreen(new InventoryFilePickerScreen(this, path -> {
             try {
                 InventoryTextureManager.importImage(path);
                 setStatus("Imported: " + path.getFileName(), false);
@@ -54,7 +47,7 @@ public final class InventoryTextureEditorScreen extends Screen {
                 String message = exception.getMessage();
                 setStatus(message == null ? "Could not import that image." : message, true);
             }
-        });
+        }));
     }
 
     private void setStatus(String message, boolean error) {
@@ -65,7 +58,6 @@ public final class InventoryTextureEditorScreen extends Screen {
     @Override
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
-
         int centerX = this.width / 2;
         int top = Math.max(8, (this.height - 260) / 2);
         drawCentered(graphics, Component.literal("Inventory Texture Editor"), centerX, top, 0xFFFFFFFF);
@@ -75,17 +67,14 @@ public final class InventoryTextureEditorScreen extends Screen {
         int previewX = centerX - 66;
         int previewY = top + 39;
         graphics.fill(previewX - 2, previewY - 2, previewX + 134, previewY + 127, 0xFF292929);
-
         if (InventoryTextureManager.hasBackground()) {
             InventoryTextureManager.drawBackground(graphics, previewX, previewY, 132, 123);
         } else {
             graphics.fill(previewX, previewY, previewX + 132, previewY + 123, 0xFF171717);
             drawCentered(graphics, Component.literal("No image imported"), centerX, previewY + 56, 0xFFAAAAAA);
         }
-
         drawCentered(graphics, Component.literal("Press I in-game to open this editor"),
                 centerX, top + 158, 0xFFAAAAAA);
-
         if (!status.isEmpty()) {
             drawCentered(graphics, Component.literal(status), centerX, top + 255,
                     statusError ? 0xFFFF5555 : 0xFF55FF55);
