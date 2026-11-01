@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "id": "inventorytextureeditor",
+  "version": "${version}",
+  "name": "Inventory Texture Editor",
+  "description": "Import custom PNG and JPG textures for the Minecraft inventory screen.",
+  "environment": "client",
+  "entrypoints": {
+    "client": [
+      "net.kapi.inventorytextureeditor.InventoryTextureEditorClient"
+    ]
+  },
+  "mixins": [
+    {
+      "config": "inventorytextureeditor.client.mixins.json",
+      "environment": "client"
+    }
+  ],
+  "depends": {
+    "fabricloader": ">=0.20.1",
+    "minecraft": "~26.3",
+    "java": ">=25",
+    "fabric-api": "*"
+  }
+}
