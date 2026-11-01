@@ -1,6 +1,6 @@
 # LevelColor
 
-Client-side Minecraft Java **26.3** Fabric mod to customize only the XP level number color.
+Client-side Minecraft Java **26.3** Fabric mod to customize the XP level number color and display an elapsed-time stopwatch.
 
 ## Features
 
@@ -8,6 +8,9 @@ Client-side Minecraft Java **26.3** Fabric mod to customize only the XP level nu
 - Enter a HEX color (for example `#B10100`) or RGB values (0–255 per channel).
 - Saves the color in `.minecraft/config/levelcolor.json`.
 - Modifies vanilla's existing XP number foreground color; the four black outline draws are left alone.
+- Displays a stopwatch overlay in the upper-left corner, beginning at `00:00:00.00`.
+- Use `/start timer`, `/stop timer`, `/resume timer`, and `/reset timer` to control the stopwatch.
+- Set the timer text HEX color independently in the in-game LevelColor menu; the XP level color remains unchanged.
 
 ## Build status
 

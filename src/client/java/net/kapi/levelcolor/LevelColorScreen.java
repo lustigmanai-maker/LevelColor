@@ -11,6 +11,7 @@ public final class LevelColorScreen extends Screen {
     private EditBox redInput;
     private EditBox greenInput;
     private EditBox blueInput;
+    private EditBox timerHexInput;
     private String status = "";
     private boolean statusError;
 
@@ -21,7 +22,7 @@ public final class LevelColorScreen extends Screen {
     @Override
     protected void init() {
         int centerX = this.width / 2;
-        int top = Math.max(10, (this.height - 220) / 2);
+        int top = Math.max(10, (this.height - 300) / 2);
 
         hexInput = new EditBox(this.font, centerX - 90, top + 55, 180, 20,
                 Component.literal("HEX color"));
@@ -51,8 +52,22 @@ public final class LevelColorScreen extends Screen {
         this.addRenderableWidget(Button.builder(Component.literal("Apply RGB"), button -> applyRgb())
                 .bounds(centerX + 5, top + 128, 90, 20).build());
 
+        timerHexInput = new EditBox(this.font, centerX - 90, top + 186, 180, 20,
+                Component.literal("Timer HEX color"));
+        timerHexInput.setMaxLength(7);
+        timerHexInput.setValue(LevelColorConfig.getTimerHex());
+        this.addRenderableWidget(timerHexInput);
+
+        this.addRenderableWidget(Button.builder(Component.literal("Apply timer color"), button -> {
+            if (LevelColorConfig.setTimerHex(timerHexInput.getValue())) {
+                setStatus("Timer color saved!", false);
+            } else {
+                setStatus("Enter HEX like #FFFFFF.", true);
+            }
+        }).bounds(centerX - 65, top + 212, 130, 20).build());
+
         this.addRenderableWidget(Button.builder(Component.literal("Done"), button -> this.onClose())
-                .bounds(centerX - 40, top + 201, 80, 20).build());
+                .bounds(centerX - 40, top + 265, 80, 20).build());
     }
 
     private void applyRgb() {
@@ -87,15 +102,18 @@ public final class LevelColorScreen extends Screen {
     public void extractRenderState(GuiGraphicsExtractor graphics, int mouseX, int mouseY, float partialTick) {
         super.extractRenderState(graphics, mouseX, mouseY, partialTick);
         int centerX = this.width / 2;
-        int top = Math.max(10, (this.height - 220) / 2);
+        int top = Math.max(10, (this.height - 300) / 2);
 
         drawCentered(graphics, Component.literal("LevelColor"), centerX, top, 0xFFFFFFFF);
-        drawCentered(graphics, Component.literal("Change only the XP level number"), centerX, top + 20, 0xFFB8B8B8);
+        drawCentered(graphics, Component.literal("XP level color"), centerX, top + 20, 0xFFB8B8B8);
         graphics.text(this.font, Component.literal("HEX color"), centerX - 90, top + 43, 0xFFFFFFFF, false);
         graphics.text(this.font, Component.literal("RGB (0-255)"), centerX - 92, top + 86, 0xFFFFFFFF, false);
-        drawCentered(graphics, Component.literal("Preview: 147"), centerX, top + 157, LevelColorConfig.getArgb());
+        drawCentered(graphics, Component.literal("XP preview: 147"), centerX, top + 157, LevelColorConfig.getArgb());
+        graphics.text(this.font, Component.literal("Timer text HEX color"), centerX - 90, top + 174, 0xFFFFFFFF, false);
+        drawCentered(graphics, Component.literal("Timer preview: 00:00:12.34"), centerX, top + 241,
+                LevelColorConfig.getTimerArgb());
         if (!status.isEmpty()) {
-            drawCentered(graphics, Component.literal(status), centerX, top + 178,
+            drawCentered(graphics, Component.literal(status), centerX, top + 291,
                     statusError ? 0xFFFF5555 : 0xFF55FF55);
         }
     }
