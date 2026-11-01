@@ -181,7 +181,7 @@ public final class InventoryTextureManager {
         textureWidth = image.getWidth();
         textureHeight = image.getHeight();
 
-        Minecraft.getInstance().textureManager.register(
+        Minecraft.getInstance().getTextureManager().register(
                 BACKGROUND_TEXTURE,
                 new DynamicTexture(() -> "Inventory Texture Editor background", image)
         );
